@@ -11,20 +11,14 @@
 
 namespace sjaakp\collapse;
 
-use yii\base\Widget;
-use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class Accordion
  * @package sjaakp\collapse
  */
-class Accordion extends Widget
+class Accordion extends CollapseGroup
 {
-    /**
-     * @var array HTML options for the surrounding <div>
-     */
-    public $options = [];
-
     /**
      * @var array HTML options for the collapsible panels
      */
@@ -43,29 +37,12 @@ class Accordion extends Widget
     /**
      * @var bool whether the first panel is initially open
      */
-
     public $open = true;
+
     /**
-     * @var bool whether the label is HTML-encoded
+     * @var bool whether the labels are HTML-encoded
      */
     public $encode = true;
-
-    /**
-     * @inheritDoc
-     */
-    public function init()
-    {
-        parent::init();
-
-        if (!isset($this->options['id'])) {
-            $this->options['id'] = $this->getId();
-        }
-
-        $id = $this->options['id'];
-        $this->panelOptions['data-parent'] = "#$id";
-
-        echo Html::beginTag('div', $this->options) . "\n";
-    }
 
     /**
      * @inheritDoc
@@ -77,7 +54,7 @@ class Accordion extends Widget
         /* @var $acc Accordion */
         $acc = parent::begin($config);
 
-        Collapse::begin([
+        self::beginCollapse([
             'options' => $acc->panelOptions,
             'toggleOptions' => $acc->toggleOptions,
             'label' => $acc->label,
@@ -88,29 +65,29 @@ class Accordion extends Widget
         return $acc;
     }
 
+    public static function next($config = [])
+    {
+        if (is_string($config)) $config = [ 'label' => $config ];
+
+        self::endCollapse();
+
+        /* @var $acc Accordion */
+        $acc = self::retrieveWidget();
+
+        return self::beginCollapse(ArrayHelper::merge([
+            'options' => $acc->panelOptions,
+            'toggleOptions' => $acc->toggleOptions,
+            'encode' => $acc->encode,
+            'open' => false
+        ], $config));
+    }
+
     /**
      * @inheritDoc
      */
     public static function end()
     {
-        Collapse::end();
-        $acc = parent::end();
-        echo '</div>';
-        return $acc;
-    }
-
-    /**
-     * @param $label
-     */
-    public function next($label)
-    {
-        Collapse::end();
-        Collapse::begin([
-            'options' => $this->panelOptions,
-            'toggleOptions' => $this->toggleOptions,
-            'label' => $label,
-            'encode' => $this->encode,
-            'open' => false
-        ]);
+        self::endCollapse();
+        return parent::end();
     }
 }

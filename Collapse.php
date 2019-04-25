@@ -25,6 +25,7 @@ class Collapse extends Widget
 {
     /**
      * @var array HTML options for the collapsible panel
+     * special option: 'tag': the HTML tag of the element; if not set: 'div'
      */
     public $options = [];
 
@@ -76,9 +77,10 @@ a.btn-collapse.collapsed:before{border-left-color:inherit;border-top-color:trans
             'aria-controls' => $id
         ], $this->toggleOptions)) . "\n";
 
+        $tag = ArrayHelper::remove($this->options, 'tag', 'div');
         Html::addCssClass($this->options, 'collapse');
         if ($this->open) Html::addCssClass($this->options, 'show');
-        echo Html::beginTag('div', $this->options) . "\n";
+        echo Html::beginTag($tag, $this->options) . "\n";
     }
 
     /**

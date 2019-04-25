@@ -1,18 +1,21 @@
 Yii2-collapse
 =============
 
-**Yii2-collapse** offers two widgets for the [Yii 2.0](https://www.yiiframework.com/ "Yii") PHP Framework:
+**Yii2-collapse** offers three widgets for the [Yii 2.0](https://www.yiiframework.com/ "Yii") PHP Framework:
 
  - **Collapse** renders a [Bootstrap Collapse](https://getbootstrap.com/docs/4.3/components/collapse/#example "Bootstrap")
    element with a toggle link and a collapsible panel;
    
+ - **CollapseGroup** two or more **Collapse**s of which only one can be open;  
+   
  - **Accordion** renders a [Bootstrap Accordion](https://getbootstrap.com/docs/4.3/components/collapse/#accordion-example "Bootstrap")
-   element with several panels of which only one can be open. An **Accordion** essentially consists of several
-   **Collapse**'s.
+   element with several panels of which only one can be open. An **Accordion** essentially is a kind
+   of **CollapseGroup**. The difference is that the **Collapse**'s are all direct 
+   children of the surrounding element.
    
-Both widgets can be used with either Bootstrap 3.x or Bootstrap 4.x.
+All three widgets can be used with either Bootstrap 3.x or Bootstrap 4.x.
    
-A demonstration of both widgets is [here](http://www.sjaakpriester.nl/software/collapse).
+A demonstration of the widgets is [here](http://www.sjaakpriester.nl/software/collapse).
 
 ## Installation ##
 
@@ -63,6 +66,31 @@ Instead of initializing **Collapse** with the label text, it can also be
   
   
 
+## Using the CollapseGroup widget ##
+
+The **CollapseGroup** widget can be used like:
+
+    <?php
+    use sjaakp\collapse\CollapseGroup;
+    ?>
+        ...
+        <?php CollapseGroup::begin([/* options */]) ?>
+        ...
+        <?php CollapseGroup::beginCollapse('Details) ?>
+            <h4>Some details</h4>
+            <p>The first detail... </p>
+        <?php CollapseGroup::endCollapse() ?>
+        ...
+        <?php CollapseGroup::beginCollapse('More details) ?>
+            <h4>Some more details</h4>
+            <p>The first detail... </p>
+        <?php CollapseGroup::endCollapse() ?>
+        ...
+        <?php CollapseGroup::end() ?>
+        ... 
+
+`beginCollapse()` can also be initiallized with an array of **Collapse** options.
+
 ## Using the Accordion widget ##
 
 Use the **Accordion** widget as follows:
@@ -71,13 +99,13 @@ Use the **Accordion** widget as follows:
     use sjaakp\collapse\Accordion;
     ?>
         ...
-        <?php $accordion = Accordion::begin('Details') ?>
+        <?php Accordion::begin('Details') ?>
             <h4>Some details</h4>
             <p>The first detail... </p>
-        <?php $accordion->next('More details') ?>
+        <?php Accordion::next('More details') ?>
             <h4>Some more details</h4>
             <p>The tenth detail... </p>
-        <?php $accordion->next('Even more details') ?>
+        <?php Accordion::next('Even more details') ?>
             <h4>Even some more details</h4>
             <p>The twentieth detail... </p>
         <?php Accordion::end() ?>
@@ -88,22 +116,32 @@ As with **Collapse**, **Accordion** can also be
   
 #### Common options ####
 
-**Collapse** and **Accordion** both have the following options:
+**Collapse** and **Accordion** (but *not* **CollapseGroup**) both have the following options:
 
  - **label** `string` The text of the (first) label.
  - **encode** `bool` Whether to HTML-encode the label(s). Default: `true`.
- - **open** `bool` Whether the (first) panel is initially open.
-        Default: `false` (Collapse), `true` (Accordion).
+ - **open** `bool` Whether the (first) panel is initially open. Default:
+    `false` (Collapse), `true` (Accordion).
  - **toggleOptions** `array` HTML options for the toggle link(s).
      Default: `['class' => 'btn-collapse']`. This class styles the toggle link
      with a triangle.
      
-#### Collapse options ####
+#### Collapse option ####
 
  - **options** `array` HTML options for the panel.
+   `'tag'` is a special option, defining the HTML-tag. If it is not set, the
+   HTML-tag is `'div'`
+     
+#### CollapseGroup option ####
+
+ - **options** `array` HTML options for the surrounding element.
+   `'tag'` is a special option, defining the HTML-tag. If it is not set, the
+   HTML-tag is `'div'`
  
 #### Accordion options
 
- - **options** `array` HTML options for the surrounding `<div>`.
+ - **options** `array` HTML options for the surrounding element.
+   `'tag'` is a special option, defining the HTML-tag. If it is not set, the
+   HTML-tag is `'div'`
 
  - **panelOptions** `array` HTML options for the panels.

@@ -1,6 +1,10 @@
 Yii2-collapse
 =============
 
+[![Latest Stable Version](https://poser.pugx.org/sjaakp/yii2-collapse/v/stable)](https://packagist.org/packages/sjaakp/yii2-collapse)
+[![Total Downloads](https://poser.pugx.org/sjaakp/yii2-collapse/downloads)](https://packagist.org/packages/sjaakp/yii2-collapse)
+[![License](https://poser.pugx.org/sjaakp/yii2-collapse/license)](https://packagist.org/packages/sjaakp/yii2-collapse)
+
 **Yii2-collapse** offers three widgets for the [Yii 2.0](https://www.yiiframework.com/ "Yii") PHP Framework:
 
  - **Collapse** renders a [Bootstrap Collapse](https://getbootstrap.com/docs/4.3/components/collapse/#example "Bootstrap")
